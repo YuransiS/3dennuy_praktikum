@@ -81,6 +81,11 @@
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
 
+    <!-- ЗАКРІПЛЕНИЙ НАПИС ЗВЕРХУ -->
+    <div class="fixed top-0 left-0 w-full bg-brandDark/90 backdrop-blur-md border-b border-brandOrange/30 py-3 z-50 text-center shadow-lg shadow-black/50">
+        <span class="text-brandOrange font-semibold text-sm uppercase tracking-wider">3-денний безкоштовний практикум</span>
+    </div>
+
     <!-- Floating Button -->
     <button onclick="openModal()" class="fixed bottom-6 right-6 z-40 bg-brandOrange hover:bg-brandOrangeHover text-white p-4 rounded-full shadow-lg shadow-brandOrange/30 transition-transform hover:scale-105 flex items-center justify-center">
         <i data-lucide="edit-3"></i>
@@ -89,11 +94,8 @@
     <!-- БЛОК 1: Hero -->
     <section class="hero-bg min-h-screen flex items-center relative pt-20 pb-16 px-4">
         <div class="max-w-5xl mx-auto w-full z-10 text-center lg:text-left">
-            <div class="inline-block border border-brandOrange/50 bg-brandOrange/10 text-brandOrange px-4 py-2 rounded-full text-sm font-semibold mb-6">
-                3-денний безкоштовний практикум
-            </div>
             <h1 class="text-4xl lg:text-6xl font-bold leading-tight mb-6">
-                Перестань триматися за старе життя, яке ви вже переросли
+                Перестань триматися за старе життя, <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-brandOrange">яке ви вже переросли</span>
             </h1>
             <p class="text-lg lg:text-xl text-gray-300 max-w-2xl mb-10 mx-auto lg:mx-0">
                 За 3 дні на практикумі розберемо ваші внутрішні страхи та установки, які тримають вас в теперішньому, і знайдемо, як почати рухатись в бажане майбутнє без хаосу та страху.
