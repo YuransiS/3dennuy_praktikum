@@ -33,6 +33,11 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
+    <!-- AOS (Animate On Scroll) -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <!-- GSAP for smooth entrance -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -52,7 +57,7 @@
     </script>
 
     <style>
-        body { background-color: #0f0f11; color: #ffffff; }
+        body { background-color: #0f0f11; color: #ffffff; scroll-behavior: smooth; }
         
         /* Bg overlays */
         .hero-bg {
@@ -67,7 +72,7 @@
         
         /* IntlTelInput overrides for dark theme */
         .iti { width: 100%; }
-        .iti__country-list { background-color: #1a1a1c; color: white; border: 1px solid #333; }
+        .iti__country-list { background-color: #1a1a1c; color: white; border: 1px solid #333; z-index: 100; }
         .iti__country.iti__highlight { background-color: #333; }
         
         /* FAQ Accordion */
@@ -75,8 +80,25 @@
         details > summary::-webkit-details-marker { display: none; }
         
         /* Modal Animation */
-        .modal-enter { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+        .modal-enter { animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        /* Premium interactions */
+        .hover-card { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .hover-card:hover { transform: translateY(-8px); border-color: #ff6b0050; box-shadow: 0 10px 30px -10px rgba(255, 107, 0, 0.2); }
+        
+        .btn-glow { position: relative; overflow: hidden; }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+            transform: scale(0);
+            transition: transform 0.6s ease-out;
+            pointer-events: none;
+        }
+        .btn-glow:hover::after { transform: scale(1); }
     </style>
 </head>
 <body class="font-sans antialiased overflow-x-hidden">
@@ -87,58 +109,60 @@
     </div>
 
     <!-- Floating Button -->
-    <button onclick="openModal()" class="fixed bottom-6 right-6 z-40 bg-brandOrange hover:bg-brandOrangeHover text-white p-4 rounded-full shadow-lg shadow-brandOrange/30 transition-transform hover:scale-105 flex items-center justify-center">
+    <button onclick="openModal()" class="fixed bottom-6 right-6 z-40 bg-brandOrange hover:bg-brandOrangeHover text-white p-4 rounded-full shadow-lg shadow-brandOrange/30 transition-transform hover:scale-110 flex items-center justify-center btn-glow">
         <i data-lucide="edit-3"></i>
     </button>
 
     <!-- БЛОК 1: Hero -->
     <section class="hero-bg min-h-screen flex items-center relative pt-20 pb-16 px-4">
         <div class="max-w-5xl mx-auto w-full z-10 text-center lg:text-left">
-            <h1 class="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 id="hero-title" class="text-4xl lg:text-6xl font-bold leading-tight mb-6 opacity-0 translate-y-10">
                 Перестань триматися за старе життя, <span class="text-transparent bg-clip-text bg-gradient-to-r from-white to-brandOrange">яке ви вже переросли</span>
             </h1>
-            <p class="text-lg lg:text-xl text-gray-300 max-w-2xl mb-10 mx-auto lg:mx-0">
+            <p id="hero-desc" class="text-lg lg:text-xl text-gray-300 max-w-2xl mb-10 mx-auto lg:mx-0 opacity-0 translate-y-10">
                 За 3 дні на практикумі розберемо ваші внутрішні страхи та установки, які тримають вас в теперішньому, і знайдемо, як почати рухатись в бажане майбутнє без хаосу та страху.
             </p>
-            <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
-                Доєднатися до практикуму
-            </button>
+            <div id="hero-cta" class="opacity-0 translate-y-10">
+                <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_30px_rgba(255,107,0,0.4)] btn-glow">
+                    Доєднатися до практикуму
+                </button>
+            </div>
         </div>
     </section>
 
     <!-- БЛОК 2: Для кого -->
-    <section class="py-20 px-4 bg-brandDark">
+    <section class="py-20 px-4 bg-brandDark relative overflow-hidden">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Цей практикум для вас, якщо ви:</h2>
+            <h2 data-aos="fade-up" class="text-3xl lg:text-4xl font-bold mb-12 text-center">Цей практикум для вас, якщо ви:</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
-                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                <div data-aos="fade-up" data-aos-delay="100" class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 hover-card">
                     <i data-lucide="compass" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
                     <p class="text-gray-300">відчуваєте, що переросли своє теперішнє життя, але не розумієте, куди рухатись далі</p>
                 </div>
                 
-                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                <div data-aos="fade-up" data-aos-delay="200" class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 hover-card">
                     <i data-lucide="briefcase" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
                     <p class="text-gray-300">тримаєтеся за роботу / бізнес / формат життя, який вже не приносить задоволення</p>
                 </div>
-
-                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                
+                <div data-aos="fade-up" data-aos-delay="300" class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 hover-card">
                     <i data-lucide="clock" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
                     <p class="text-gray-300">хочете змін, але постійно відкладаєте через страх або сумніви</p>
                 </div>
 
-                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                <div data-aos="fade-up" data-aos-delay="400" class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 hover-card">
                     <i data-lucide="bot" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
                     <p class="text-gray-300">живете “на автоматі” і відчуваєте, що можете більше</p>
                 </div>
 
-                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 md:col-span-2">
+                <div data-aos="fade-up" data-aos-delay="500" class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 md:col-span-2 hover-card">
                     <i data-lucide="git-merge" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
                     <p class="text-gray-300">знаходитеся в стані між “як є” і “як хочеться”, але не можете зробити крок</p>
                 </div>
 
             </div>
-            <p class="text-center text-xl mt-10 font-medium text-brandOrange">
+            <p data-aos="zoom-in" class="text-center text-xl mt-10 font-medium text-brandOrange">
                 Якщо впізнали себе хоча б в одному пункті — цей практикум для вас
             </p>
         </div>
@@ -147,30 +171,30 @@
     <!-- БЛОК 3: Програма -->
     <section class="py-20 px-4 bg-[#141416]">
         <div class="max-w-5xl mx-auto">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Програма 3-денного практикуму</h2>
+            <h2 data-aos="fade-up" class="text-3xl lg:text-4xl font-bold mb-12 text-center">Програма 3-денного практикуму</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
                 
-                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                <div data-aos="flip-left" data-aos-delay="100" class="bg-brandCard p-8 rounded-xl border border-gray-800 relative hover-card">
                     <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 1</div>
                     <h3 class="text-2xl font-bold mt-4 mb-4">“Усвідомлення”</h3>
                     <p class="text-gray-400">Ви побачите, чому реально застрягли, навіщо тримаєтесь за старе, чому проблема саме у внутрішніх звичках та страхах.</p>
                 </div>
 
-                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                <div data-aos="flip-left" data-aos-delay="200" class="bg-brandCard p-8 rounded-xl border border-gray-800 relative hover-card">
                     <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 2</div>
                     <h3 class="text-2xl font-bold mt-4 mb-4">“Глибина”</h3>
                     <p class="text-gray-400">Розберемо ваші внутрішні страхи та установки, які вас тримають, і побачимо справжню причину, чому не можете зробити крок вперед.</p>
                 </div>
 
-                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                <div data-aos="flip-left" data-aos-delay="300" class="bg-brandCard p-8 rounded-xl border border-gray-800 relative hover-card">
                     <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 3</div>
                     <h3 class="text-2xl font-bold mt-4 mb-4">“Новий напрямок”</h3>
                     <p class="text-gray-400">Ви зрозумієте, як починаються зміни, і отримаєте чітке бачення, як рухатись далі без хаосу і постійних сумнівів.</p>
                 </div>
 
             </div>
-            <div class="text-center">
-                <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
+            <div class="text-center" data-aos="fade-up">
+                <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)] btn-glow">
                     Доєднатися до практикуму
                 </button>
             </div>
@@ -180,10 +204,10 @@
     <!-- БЛОК 4: Автор -->
     <section class="py-20 px-4 bg-brandDark border-t border-gray-800">
         <div class="max-w-5xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
-            <div class="w-full lg:w-1/2">
-                <img src="author.PNG" alt="Володимир Гаврилюк" loading="lazy" class="w-full rounded-2xl shadow-2xl object-cover aspect-[4/5] border border-gray-800">
+            <div class="w-full lg:w-1/2" data-aos="fade-right">
+                <img src="author.PNG" alt="Володимир Гаврилюк" loading="lazy" class="w-full rounded-2xl shadow-2xl object-cover aspect-[4/5] border border-gray-800 transition-transform duration-700 hover:scale-[1.02]">
             </div>
-            <div class="w-full lg:w-1/2">
+            <div class="w-full lg:w-1/2" data-aos="fade-left">
                 <h2 class="text-4xl font-bold mb-2">Володимир Гаврилюк</h2>
                 <p class="text-brandOrange font-semibold mb-6 text-lg">Сертифікований коуч ICF</p>
                 
@@ -199,26 +223,26 @@
 
     <!-- БЛОК 5: Відгуки (Карусель) -->
     <section class="py-20 px-4 bg-[#141416]">
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-5xl mx-auto" data-aos="fade-up">
             <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Ось, що кажуть люди, які пройшли мої коуч сесії:</h2>
             
             <div class="swiper mySwiper">
                 <div class="swiper-wrapper mb-12">
                     <!-- Слайд 1 -->
                     <div class="swiper-slide flex justify-center">
-                        <img src="feed1.jpg" alt="Відгук 1" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                        <img src="feed1.jpg" alt="Відгук 1" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800 shadow-xl">
                     </div>
                     <!-- Слайд 2 -->
                     <div class="swiper-slide flex justify-center">
-                        <img src="feed2.jpg" alt="Відгук 2" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                        <img src="feed2.jpg" alt="Відгук 2" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800 shadow-xl">
                     </div>
                     <!-- Слайд 3 -->
                     <div class="swiper-slide flex justify-center">
-                        <img src="feed3.jpg" alt="Відгук 3" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                        <img src="feed3.jpg" alt="Відгук 3" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800 shadow-xl">
                     </div>
                     <!-- Слайд 4 -->
                     <div class="swiper-slide flex justify-center">
-                        <img src="feed4.jpg" alt="Відгук 4" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                        <img src="feed4.jpg" alt="Відгук 4" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800 shadow-xl">
                     </div>
                 </div>
                 <!-- Навігація -->
@@ -232,70 +256,70 @@
     <!-- БЛОК 6: FAQ -->
     <section class="py-20 px-4 bg-brandDark">
         <div class="max-w-3xl mx-auto">
-            <h2 class="text-3xl lg:text-4xl font-bold mb-10 text-center">Часті питання</h2>
+            <h2 data-aos="fade-up" class="text-3xl lg:text-4xl font-bold mb-10 text-center">Часті питання</h2>
             
             <div class="space-y-4">
                 <!-- Питання 1 -->
-                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                <details data-aos="fade-up" data-aos-delay="100" class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors overflow-hidden">
                     <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
                         <span>1. Це просто лекції чи буде практика?</span>
                         <span class="transition group-open:rotate-180">
                             <i data-lucide="chevron-down" class="text-brandOrange"></i>
                         </span>
                     </summary>
-                    <div class="text-gray-400 p-6 pt-0">
+                    <div class="text-gray-400 p-6 pt-0 border-t border-gray-800/30 mt-2">
                         Це практикум. Ви не просто слухаєте — ви працюєте зі своєю ситуацією через завдання і питання, які допомагають побачити, що з вами відбувається насправді.
                     </div>
                 </details>
 
                 <!-- Питання 2 -->
-                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                <details data-aos="fade-up" data-aos-delay="150" class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors overflow-hidden">
                     <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
                         <span>2. А якщо я не розумію свій запит або не можу його сформулювати?</span>
                         <span class="transition group-open:rotate-180">
                             <i data-lucide="chevron-down" class="text-brandOrange"></i>
                         </span>
                     </summary>
-                    <div class="text-gray-400 p-6 pt-0">
+                    <div class="text-gray-400 p-6 pt-0 border-t border-gray-800/30 mt-2">
                         Це нормально. Більшість людей приходять саме з відчуттям “щось не так, але не розумію що”. У процесі практикуму ви якраз це проясните.
                     </div>
                 </details>
 
                 <!-- Питання 3 -->
-                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                <details data-aos="fade-up" data-aos-delay="200" class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors overflow-hidden">
                     <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
                         <span>3. Чи підійде мені практикум, якщо я не підприємець?</span>
                         <span class="transition group-open:rotate-180">
                             <i data-lucide="chevron-down" class="text-brandOrange"></i>
                         </span>
                     </summary>
-                    <div class="text-gray-400 p-6 pt-0">
+                    <div class="text-gray-400 p-6 pt-0 border-t border-gray-800/30 mt-2">
                         Так. Практикум підійде всім, хто відчуває, що застряг, живе не так, як хоче, і хоче розібратись, що з цим робити.
                     </div>
                 </details>
 
                 <!-- Питання 4 -->
-                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                <details data-aos="fade-up" data-aos-delay="250" class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors overflow-hidden">
                     <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
                         <span>4. Чи потрібно буде щось робити між ефірами?</span>
                         <span class="transition group-open:rotate-180">
                             <i data-lucide="chevron-down" class="text-brandOrange"></i>
                         </span>
                     </summary>
-                    <div class="text-gray-400 p-6 pt-0">
+                    <div class="text-gray-400 p-6 pt-0 border-t border-gray-800/30 mt-2">
                         Так, будуть письмові завдання. Вони прості, але саме через них приходить основна ясність, тому рекомендуємо їх виконувати.
                     </div>
                 </details>
 
                 <!-- Питання 5 -->
-                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                <details data-aos="fade-up" data-aos-delay="300" class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors overflow-hidden">
                     <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
                         <span>5. Який результат я отримаю після практикуму?</span>
                         <span class="transition group-open:rotate-180">
                             <i data-lucide="chevron-down" class="text-brandOrange"></i>
                         </span>
                     </summary>
-                    <div class="text-gray-400 p-6 pt-0">
+                    <div class="text-gray-400 p-6 pt-0 border-t border-gray-800/30 mt-2">
                         Ви зрозумієте, де саме застрягли, що вас тримає і в якому напрямку рухатись далі. Це не про “мотивацію”, а про реальну ясність і розуміння своєї ситуації.
                     </div>
                 </details>
@@ -306,16 +330,18 @@
     <!-- БЛОК 7: Фінал -->
     <section class="py-20 px-4 bg-[#141416] border-t border-gray-800 text-center">
         <div class="max-w-3xl mx-auto">
-            <p class="text-xl text-gray-300 mb-6">
+            <p data-aos="fade-up" class="text-xl text-gray-300 mb-6">
                 Якщо ви дочитали до цього місця — ви вже самі розумієте, що є проблеми, які треба вирішувати.<br>
                 Питання тільки в одному: залишити все як є чи нарешті розібратися з цим.
             </p>
-            <p class="text-2xl font-bold mb-10">
+            <p data-aos="fade-up" data-aos-delay="100" class="text-2xl font-bold mb-10">
                 Безкоштовний практикум - це 3 дні, які можуть показати, чому ви застрягли і що з цим робити та як почати діяти.
             </p>
-            <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-12 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
-                Приєднатися до практикуму
-            </button>
+            <div data-aos="zoom-in" data-aos-delay="200">
+                <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-12 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)] btn-glow">
+                    Приєднатися до практикуму
+                </button>
+            </div>
         </div>
     </section>
 
@@ -351,7 +377,7 @@
                            class="w-full bg-brandDark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brandOrange focus:ring-1 focus:ring-brandOrange transition">
                 </div>
 
-                <button type="submit" id="submitBtn" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-lg transition-colors flex justify-center items-center gap-2 mt-2">
+                <button type="submit" id="submitBtn" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-lg transition-colors flex justify-center items-center gap-2 mt-2 btn-glow">
                     <span>Відправити дані</span>
                     <i data-lucide="arrow-right" class="w-5 h-5"></i>
                 </button>
@@ -362,7 +388,24 @@
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.2.16/build/js/intlTelInput.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script>
+        // Ініціалізація AOS
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            offset: 100
+        });
+
+        // Entrance GSAP animations
+        window.addEventListener('DOMContentLoaded', () => {
+            const tl = gsap.timeline();
+            tl.to("#hero-title", { opacity: 1, y: 0, duration: 1, ease: "expo.out" })
+              .to("#hero-desc", { opacity: 1, y: 0, duration: 1, ease: "expo.out" }, "-=0.7")
+              .to("#hero-cta", { opacity: 1, y: 0, duration: 1, ease: "expo.out" }, "-=0.7");
+        });
+
         // Ініціалізація іконок
         lucide.createIcons();
 
@@ -450,9 +493,11 @@
 
             const utms = getUTMs();
             const payload = {
+                sheetId: '767780942', // ID листа спеціально для цього лендингу
+                isFree: true,        // Практикум безкоштовний
                 name: nameVal,
                 phone: iti.getNumber(),
-                contact: document.getElementById('contact').value,
+                telegram: document.getElementById('contact').value, // Мапимо контакт на telegram
                 utm_source: utms.source,
                 utm_medium: utms.medium,
                 utm_campaign: utms.campaign,
@@ -461,10 +506,10 @@
             };
 
             // URL ТВОГО GOOGLE APP SCRIPT
-            const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL';
+            const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsHZ7XHi70M33guhCc_S3tOYazucBBb4oAHCN0FQsXIVK9nizQRHgf-yFYHsdxuooAbQ/exec'; 
 
             try {
-                // Відправляємо no-cors щоб не було помилок з політикою браузера (дані все одно дійдуть)
+                // Відправляємо no-cors щоб не було помилок з політикою браузера
                 await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     mode: 'no-cors',
@@ -475,19 +520,20 @@
                 // Піксель: Лід
                 fbq('track', 'Lead');
                 
-                // Зберігаємо UTM для передачі на сторінку подяки
-                const queryString = window.location.search;
-                
-                // Редирект на сторінку подяки
-                window.location.href = 'thanks.html' + queryString;
+                // Редирект на сторінку подяки з передачею UTM
+                window.location.href = 'thanks.html' + window.location.search;
                 
             } catch (error) {
+                console.error('Submission error:', error);
                 alert('Помилка відправки. Спробуйте ще раз.');
                 btn.disabled = false;
                 btn.innerHTML = '<span>Відправити дані</span><i data-lucide="arrow-right" class="w-5 h-5"></i>';
                 lucide.createIcons();
             }
         });
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
