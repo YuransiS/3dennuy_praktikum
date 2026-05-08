@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дякуємо за реєстрацію!</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); // ВСТАВ СВІЙ ID ПІКСЕЛЯ ТУТ
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { brandDark: '#0f0f11', brandOrange: '#ff6b00', brandOrangeHover: '#e55f00' }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-brandDark text-white font-sans h-screen flex items-center justify-center px-4">
+
+    <div class="max-w-xl w-full bg-[#1a1a1c] p-10 rounded-2xl border border-gray-800 text-center shadow-2xl shadow-brandOrange/10">
+        <!-- Іконка успіху -->
+        <div class="w-20 h-20 bg-brandOrange/20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-10 h-10 text-brandOrange" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        
+        <h1 class="text-3xl font-bold mb-4">Вітаю з успішною реєстрацією!</h1>
+        <p class="text-gray-400 text-lg mb-10">
+            Переходь за посиланням, там знайдеш всю необхідну інформацію.
+        </p>
+        
+        <a href="YOUR_BOT_LINK" id="botBtn" class="block w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 rounded-lg transition-transform hover:scale-105 shadow-[0_0_15px_rgba(255,107,0,0.5)]">
+            Перейти в канал
+        </a>
+    </div>
+
+</body>
+</html>

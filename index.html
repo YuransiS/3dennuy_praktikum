@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Володимир Гаврилюк | 3-денний практикум</title>
+    
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID'); // ВСТАВ СВІЙ ID ПІКСЕЛЯ ТУТ
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+    <!-- End Meta Pixel Code -->
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Swiper CSS (Карусель) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    
+    <!-- IntlTelInput CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@19.2.16/build/css/intlTelInput.css">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#0f0f11',
+                        brandCard: '#1a1a1c',
+                        brandOrange: '#ff6b00',
+                        brandOrangeHover: '#e55f00'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background-color: #0f0f11; color: #ffffff; }
+        
+        /* Bg overlays */
+        .hero-bg {
+            background-image: linear-gradient(to right, rgba(15, 15, 17, 0.9) 0%, rgba(15, 15, 17, 0.6) 100%), url('main.PNG');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Swiper custom styles */
+        .swiper-pagination-bullet { background: #ff6b00 !important; }
+        .swiper-button-next, .swiper-button-prev { color: #ff6b00 !important; }
+        
+        /* IntlTelInput overrides for dark theme */
+        .iti { width: 100%; }
+        .iti__country-list { background-color: #1a1a1c; color: white; border: 1px solid #333; }
+        .iti__country.iti__highlight { background-color: #333; }
+        
+        /* FAQ Accordion */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
+        
+        /* Modal Animation */
+        .modal-enter { animation: fadeIn 0.3s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden">
+
+    <!-- Floating Button -->
+    <button onclick="openModal()" class="fixed bottom-6 right-6 z-40 bg-brandOrange hover:bg-brandOrangeHover text-white p-4 rounded-full shadow-lg shadow-brandOrange/30 transition-transform hover:scale-105 flex items-center justify-center">
+        <i data-lucide="edit-3"></i>
+    </button>
+
+    <!-- БЛОК 1: Hero -->
+    <section class="hero-bg min-h-screen flex items-center relative pt-20 pb-16 px-4">
+        <div class="max-w-5xl mx-auto w-full z-10 text-center lg:text-left">
+            <div class="inline-block border border-brandOrange/50 bg-brandOrange/10 text-brandOrange px-4 py-2 rounded-full text-sm font-semibold mb-6">
+                3-денний безкоштовний практикум
+            </div>
+            <h1 class="text-4xl lg:text-6xl font-bold leading-tight mb-6">
+                Перестань триматися за старе життя, яке ви вже переросли
+            </h1>
+            <p class="text-lg lg:text-xl text-gray-300 max-w-2xl mb-10 mx-auto lg:mx-0">
+                За 3 дні на практикумі розберемо ваші внутрішні страхи та установки, які тримають вас в теперішньому, і знайдемо, як почати рухатись в бажане майбутнє без хаосу та страху.
+            </p>
+            <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
+                Доєднатися до практикуму
+            </button>
+        </div>
+    </section>
+
+    <!-- БЛОК 2: Для кого -->
+    <section class="py-20 px-4 bg-brandDark">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Цей практикум для вас, якщо ви:</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                
+                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                    <i data-lucide="compass" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
+                    <p class="text-gray-300">відчуваєте, що переросли своє теперішнє життя, але не розумієте, куди рухатись далі</p>
+                </div>
+                
+                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                    <i data-lucide="briefcase" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
+                    <p class="text-gray-300">тримаєтеся за роботу / бізнес / формат життя, який вже не приносить задоволення</p>
+                </div>
+
+                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                    <i data-lucide="clock" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
+                    <p class="text-gray-300">хочете змін, але постійно відкладаєте через страх або сумніви</p>
+                </div>
+
+                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4">
+                    <i data-lucide="bot" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
+                    <p class="text-gray-300">живете “на автоматі” і відчуваєте, що можете більше</p>
+                </div>
+
+                <div class="bg-brandCard p-6 rounded-xl border border-gray-800 flex items-start gap-4 md:col-span-2">
+                    <i data-lucide="git-merge" class="text-brandOrange flex-shrink-0 w-8 h-8"></i>
+                    <p class="text-gray-300">знаходитеся в стані між “як є” і “як хочеться”, але не можете зробити крок</p>
+                </div>
+
+            </div>
+            <p class="text-center text-xl mt-10 font-medium text-brandOrange">
+                Якщо впізнали себе хоча б в одному пункті — цей практикум для вас
+            </p>
+        </div>
+    </section>
+
+    <!-- БЛОК 3: Програма -->
+    <section class="py-20 px-4 bg-[#141416]">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Програма 3-денного практикуму</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+                
+                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                    <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 1</div>
+                    <h3 class="text-2xl font-bold mt-4 mb-4">“Усвідомлення”</h3>
+                    <p class="text-gray-400">Ви побачите, чому реально застрягли, навіщо тримаєтесь за старе, чому проблема саме у внутрішніх звичках та страхах.</p>
+                </div>
+
+                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                    <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 2</div>
+                    <h3 class="text-2xl font-bold mt-4 mb-4">“Глибина”</h3>
+                    <p class="text-gray-400">Розберемо ваші внутрішні страхи та установки, які вас тримають, і побачимо справжню причину, чому не можете зробити крок вперед.</p>
+                </div>
+
+                <div class="bg-brandCard p-8 rounded-xl border border-gray-800 relative">
+                    <div class="absolute -top-5 left-8 bg-brandOrange text-white font-bold px-4 py-1 rounded-full text-sm">День 3</div>
+                    <h3 class="text-2xl font-bold mt-4 mb-4">“Новий напрямок”</h3>
+                    <p class="text-gray-400">Ви зрозумієте, як починаються зміни, і отримаєте чітке бачення, як рухатись далі без хаосу і постійних сумнівів.</p>
+                </div>
+
+            </div>
+            <div class="text-center">
+                <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-10 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
+                    Доєднатися до практикуму
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 4: Автор -->
+    <section class="py-20 px-4 bg-brandDark border-t border-gray-800">
+        <div class="max-w-5xl mx-auto flex flex-col lg:flex-row gap-12 items-center">
+            <div class="w-full lg:w-1/2">
+                <img src="author.PNG" alt="Володимир Гаврилюк" loading="lazy" class="w-full rounded-2xl shadow-2xl object-cover aspect-[4/5] border border-gray-800">
+            </div>
+            <div class="w-full lg:w-1/2">
+                <h2 class="text-4xl font-bold mb-2">Володимир Гаврилюк</h2>
+                <p class="text-brandOrange font-semibold mb-6 text-lg">Сертифікований коуч ICF</p>
+                
+                <div class="space-y-4 text-gray-300">
+                    <p>10 років у наймі. 10 років тяжкої залежності. Це досвід, завдяки якому я добре розумію, як це проходити складний шлях.</p>
+                    <p>З 18 до 28 я працював поваром — у Рівному, Луцьку, Польщі, Словаччині. Десять років підйомів о 6:30 на дев'яту на зміну.</p>
+                    <p>Точку Б побачив, коли вперше сів і чесно розібрав свій шлях. Не "як треба", а як є. Виявилось, що те, що я вважав своєю слабкістю — чути людей, відчувати їх — це і було серцем мого "що я вмію". З цього виріс коучинг.</p>
+                    <p>Зараз я сертифікований коуч ICF, працюю переважно з підприємцями і людьми, які заробляють онлайн. Допомагаю не "знайти себе" — а побачити, де у твоєму вже існуючому житті розрив і що з цим робити.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 5: Відгуки (Карусель) -->
+    <section class="py-20 px-4 bg-[#141416]">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-12 text-center">Ось, що кажуть люди, які пройшли мої коуч сесії:</h2>
+            
+            <div class="swiper mySwiper">
+                <div class="swiper-wrapper mb-12">
+                    <!-- Слайд 1 -->
+                    <div class="swiper-slide flex justify-center">
+                        <img src="відгук1.jpg" alt="Відгук 1" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                    </div>
+                    <!-- Слайд 2 -->
+                    <div class="swiper-slide flex justify-center">
+                        <img src="відгук2.jpg" alt="Відгук 2" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                    </div>
+                    <!-- Слайд 3 -->
+                    <div class="swiper-slide flex justify-center">
+                        <img src="відгук3.jpg" alt="Відгук 3" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                    </div>
+                    <!-- Слайд 4 -->
+                    <div class="swiper-slide flex justify-center">
+                        <img src="відгук4.jpg" alt="Відгук 4" loading="lazy" class="max-w-full h-auto rounded-xl border border-gray-800">
+                    </div>
+                </div>
+                <!-- Навігація -->
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 6: FAQ -->
+    <section class="py-20 px-4 bg-brandDark">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="text-3xl lg:text-4xl font-bold mb-10 text-center">Часті питання</h2>
+            
+            <div class="space-y-4">
+                <!-- Питання 1 -->
+                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
+                        <span>1. Це просто лекції чи буде практика?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="text-brandOrange"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-400 p-6 pt-0">
+                        Це практикум. Ви не просто слухаєте — ви працюєте зі своєю ситуацією через завдання і питання, які допомагають побачити, що з вами відбувається насправді.
+                    </div>
+                </details>
+
+                <!-- Питання 2 -->
+                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
+                        <span>2. А якщо я не розумію свій запит або не можу його сформулювати?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="text-brandOrange"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-400 p-6 pt-0">
+                        Це нормально. Більшість людей приходять саме з відчуттям “щось не так, але не розумію що”. У процесі практикуму ви якраз це проясните.
+                    </div>
+                </details>
+
+                <!-- Питання 3 -->
+                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
+                        <span>3. Чи підійде мені практикум, якщо я не підприємець?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="text-brandOrange"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-400 p-6 pt-0">
+                        Так. Практикум підійде всім, хто відчуває, що застряг, живе не так, як хоче, і хоче розібратись, що з цим робити.
+                    </div>
+                </details>
+
+                <!-- Питання 4 -->
+                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
+                        <span>4. Чи потрібно буде щось робити між ефірами?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="text-brandOrange"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-400 p-6 pt-0">
+                        Так, будуть письмові завдання. Вони прості, але саме через них приходить основна ясність, тому рекомендуємо їх виконувати.
+                    </div>
+                </details>
+
+                <!-- Питання 5 -->
+                <details class="group bg-brandCard rounded-xl border border-gray-800 open:bg-[#1f1f22] transition-colors">
+                    <summary class="flex justify-between items-center font-medium cursor-pointer list-none p-6 text-lg">
+                        <span>5. Який результат я отримаю після практикуму?</span>
+                        <span class="transition group-open:rotate-180">
+                            <i data-lucide="chevron-down" class="text-brandOrange"></i>
+                        </span>
+                    </summary>
+                    <div class="text-gray-400 p-6 pt-0">
+                        Ви зрозумієте, де саме застрягли, що вас тримає і в якому напрямку рухатись далі. Це не про “мотивацію”, а про реальну ясність і розуміння своєї ситуації.
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- БЛОК 7: Фінал -->
+    <section class="py-20 px-4 bg-[#141416] border-t border-gray-800 text-center">
+        <div class="max-w-3xl mx-auto">
+            <p class="text-xl text-gray-300 mb-6">
+                Якщо ви дочитали до цього місця — ви вже самі розумієте, що є проблеми, які треба вирішувати.<br>
+                Питання тільки в одному: залишити все як є чи нарешті розібратися з цим.
+            </p>
+            <p class="text-2xl font-bold mb-10">
+                Безкоштовний практикум - це 3 дні, які можуть показати, чому ви застрягли і що з цим робити та як почати діяти.
+            </p>
+            <button onclick="openModal()" class="w-full sm:w-auto bg-brandOrange hover:bg-brandOrangeHover text-white font-bold text-lg py-4 px-12 rounded-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(255,107,0,0.4)]">
+                Приєднатися до практикуму
+            </button>
+        </div>
+    </section>
+
+    <!-- МОДАЛЬНЕ ВІКНО (POPUP) -->
+    <div id="leadModal" class="fixed inset-0 z-50 hidden items-center justify-center backdrop-blur-sm bg-black/80 px-4">
+        <div class="bg-brandCard w-full max-w-md rounded-2xl p-8 border border-gray-700 relative shadow-2xl modal-enter">
+            <!-- Кнопка закриття -->
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+                <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+            
+            <h3 class="text-2xl font-bold text-center mb-2">Реєстрація на практикум</h3>
+            <p class="text-gray-400 text-center text-sm mb-6">Залиште дані, щоб отримати доступ</p>
+
+            <form id="leadForm" class="space-y-5">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Ваше ім'я</label>
+                    <input type="text" id="name" required placeholder="Введіть ім'я" 
+                           pattern="^[^0-9]+$" title="Ім'я не може містити цифри"
+                           class="w-full bg-brandDark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brandOrange focus:ring-1 focus:ring-brandOrange transition">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Номер телефону</label>
+                    <input type="tel" id="phone" required
+                           class="w-full bg-brandDark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brandOrange focus:ring-1 focus:ring-brandOrange transition">
+                    <p id="phoneError" class="text-red-500 text-xs mt-1 hidden">Невірний формат номера</p>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Telegram або Email</label>
+                    <input type="text" id="contact" required placeholder="@username або email@mail.com"
+                           class="w-full bg-brandDark border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-brandOrange focus:ring-1 focus:ring-brandOrange transition">
+                </div>
+
+                <button type="submit" id="submitBtn" class="w-full bg-brandOrange hover:bg-brandOrangeHover text-white font-bold py-4 rounded-lg transition-colors flex justify-center items-center gap-2 mt-2">
+                    <span>Відправити дані</span>
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@19.2.16/build/js/intlTelInput.min.js"></script>
+    <script>
+        // Ініціалізація іконок
+        lucide.createIcons();
+
+        // Ініціалізація Swiper (Карусель)
+        const swiper = new Swiper(".mySwiper", {
+            navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+            pagination: { el: ".swiper-pagination", clickable: true },
+            loop: true,
+            spaceBetween: 20,
+            breakpoints: {
+                640: { slidesPerView: 1 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 2 }
+            }
+        });
+
+        // Ініціалізація телефону з GeoJS та виключенням RU/BY
+        const phoneInput = document.querySelector("#phone");
+        const iti = window.intlTelInput(phoneInput, {
+            initialCountry: "auto",
+            excludeCountries: ["ru", "by"], // Блокування РФ та РБ
+            geoIpLookup: callback => {
+                fetch("https://get.geojs.io/v1/ip/country.json")
+                    .then(res => res.json())
+                    .then(data => callback(data.country))
+                    .catch(() => callback("ua"));
+            },
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@19.2.16/build/js/utils.js"
+        });
+
+        // Логіка Модалки
+        const modal = document.getElementById('leadModal');
+        
+        function openModal() {
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            fbq('track', 'InitiateCheckout'); // Піксель: Відкриття форми
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Парсинг UTM
+        function getUTMs() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                source: params.get('utm_source') || '',
+                medium: params.get('utm_medium') || '',
+                campaign: params.get('utm_campaign') || '',
+                content: params.get('utm_content') || '',
+                term: params.get('utm_term') || ''
+            };
+        }
+
+        // Відправка форми
+        document.getElementById('leadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Валідація телефону
+            const errorEl = document.getElementById('phoneError');
+            if (!iti.isValidNumber()) {
+                errorEl.classList.remove('hidden');
+                phoneInput.classList.add('border-red-500');
+                return;
+            } else {
+                errorEl.classList.add('hidden');
+                phoneInput.classList.remove('border-red-500');
+            }
+
+            // Валідація імені (без цифр)
+            const nameVal = document.getElementById('name').value;
+            if (/\d/.test(nameVal)) {
+                alert("Ім'я не може містити цифри!");
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Відправка...';
+            lucide.createIcons();
+
+            const utms = getUTMs();
+            const payload = {
+                name: nameVal,
+                phone: iti.getNumber(),
+                contact: document.getElementById('contact').value,
+                utm_source: utms.source,
+                utm_medium: utms.medium,
+                utm_campaign: utms.campaign,
+                utm_content: utms.content,
+                utm_term: utms.term
+            };
+
+            // URL ТВОГО GOOGLE APP SCRIPT
+            const GOOGLE_SCRIPT_URL = 'YOUR_GOOGLE_SCRIPT_URL';
+
+            try {
+                // Відправляємо no-cors щоб не було помилок з політикою браузера (дані все одно дійдуть)
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                
+                // Піксель: Лід
+                fbq('track', 'Lead');
+                
+                // Зберігаємо UTM для передачі на сторінку подяки
+                const queryString = window.location.search;
+                
+                // Редирект на сторінку подяки
+                window.location.href = 'thanks.html' + queryString;
+                
+            } catch (error) {
+                alert('Помилка відправки. Спробуйте ще раз.');
+                btn.disabled = false;
+                btn.innerHTML = '<span>Відправити дані</span><i data-lucide="arrow-right" class="w-5 h-5"></i>';
+                lucide.createIcons();
+            }
+        });
+    </script>
+</body>
+</html>
